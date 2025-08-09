@@ -1,46 +1,48 @@
-(function(_0x246bcb, _0x2a8cba) {
-    var _0x56d5c4 = _0x3abb,
-        _0x38ab2f = _0x246bcb();
-    while (true) {
-        try {
-            var _0x48480b = -parseInt(_0x56d5c4(0xc2)) / 1 + -parseInt(_0x56d5c4(0xcc)) / 2 + -parseInt(_0x56d5c4(0xbd)) / 3 + -parseInt(_0x56d5c4(0xbf)) / 4 + parseInt(_0x56d5c4(0xc3)) / 5 + parseInt(_0x56d5c4(0xc9)) / 6 + parseInt(_0x56d5c4(0xbe)) / 7 * (parseInt(_0x56d5c4(0xc5)) / 8);
-            if (_0x48480b === _0x2a8cba) break;
-            else _0x38ab2f.push(_0x38ab2f.shift());
-        } catch (_0x352195) {
-            _0x38ab2f.push(_0x38ab2f.shift());
-        }
+(function () {
+  // 1) Chọn tất cả nhóm câu trả lời
+  const groups = document.querySelectorAll('ul.group-cautraloi');
+
+  // Helper: chọn radio theo nhãn hiển thị
+  const checkByLabel = (groupEl, labelText) => {
+    const label = Array.from(groupEl.querySelectorAll('label'))
+      .find(l => l.textContent.trim().includes(labelText));
+    if (!label) return false;
+    const input = label.querySelector('input[type="radio"]');
+    if (!input) return false;
+    input.checked = true;
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+    return true;
+  };
+
+  // 2) Đặt câu trả lời mặc định cho mỗi nhóm
+  groups.forEach(g => {
+    // Thứ tự ưu tiên: “Rất hài lòng” -> “Hoàn toàn đồng ý” -> fallback chọn radio đầu tiên
+    if (!checkByLabel(g, 'Rất hài lòng') &&
+        !checkByLabel(g, 'Hoàn toàn đồng ý')) {
+      const first = g.querySelector('input[type="radio"]');
+      if (first) {
+        first.checked = true;
+        first.dispatchEvent(new Event('change', { bubbles: true }));
+      }
     }
-}(_0x1233, 0x77a4f));
+  });
 
-(function() {
-    var _0x3bf178 = _0x3abb,
-        _0x13b787 = document[_0x3bf178(0xcb)](_0x3bf178(0xc7));
-    let _0x5d7400 = document.querySelectorAll(_0x3bf178(0xc0));
-    _0x13b787.forEach(_0x3b3637 => _0x3b3637[_0x3bf178(0xcb)](_0x3bf178(0xc8))[4].setAttribute('checked', _0x3bf178(0xca)));
-    _0x13b787[_0x13b787.length - 2].querySelector(_0x3bf178(0xc8))[2].setAttribute('checked', _0x3bf178(0xca));
-    _0x13b787[_0x13b787.length - 1].querySelector(_0x3bf178(0xc8))[2].setAttribute(_0x3bf178(0xca), 'checked');
-    _0x5d7400.forEach(_0x1384e0 => _0x1384e0.value = _0x3bf178(0xcd));
-    document.querySelector(_0x3bf178(0xc1)).click();
-}());
+  // 3) Điền textarea ý kiến (nếu có)
+  document.querySelectorAll('textarea, .input-ykien').forEach(t => {
+    t.value = 'Không có ý kiến';
+    t.dispatchEvent(new Event('input', { bubbles: true }));
+  });
 
-function _0x3abb(_0x47fb29, _0x2c7358) {
-    var _0x12330b = _0x1233();
-    return _0x3abb = function(_0x3abb98, _0x31d6b3) {
-        _0x3abb98 = _0x3abb98 - 0xbc;
-        var _0x24824a = _0x12330b[_0x3abb98];
-        return _0x24824a;
-    }, _0x3abb(_0x47fb29, _0x2c7358);
-}
-
-function _0x1233() {
-    var _0x13c3b5 = [
-        '885866lrIZDJ', 'Không có ý kiến', 'length', 'setAttribute', '430095ThNnci', '14zxvxzh',
-        '28456sptGsW', '.input-ykien', 'input[type=submit]', '765094ZiVbay', '3606480nhzoji',
-        'click', '2004040UivAQh', 'forEach', '.group-cautraloi', 'input[type=radio]',
-        '3757578NiGZZL', 'checked', 'querySelectorAll'
-    ];
-    _0x1233 = function() {
-        return _0x13c3b5;
-    };
-    return _0x1233();
-}
+  // 4) Submit form
+  const form = document.querySelector('form');
+  if (form) {
+    // Trường hợp trang bật/tắt nút gửi theo validate:
+    // thử kích hoạt click nút gửi nếu có, nếu không thì requestSubmit
+    const submitBtn = form.querySelector('button[type="submit"], input[type="submit"], #btnGui');
+    if (submitBtn) submitBtn.click();
+    else if (typeof form.requestSubmit === 'function') form.requestSubmit();
+    else form.submit();
+  } else {
+    console.warn('Không tìm thấy form để gửi.');
+  }
+})();
