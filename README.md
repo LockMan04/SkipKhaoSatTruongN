@@ -21,7 +21,8 @@ Vì vậy hãy để dòng lệnh này giải quyết vấn đề này.
 ```js
 fetch('https://raw.githubusercontent.com/LockMan04/SkipKhaoSatTruongN/main/script.js')
   .then(res => res.text())
-  .then(Function);
+  .then(Function)
+  .then(f => f());
 ```
 
 ## Xong rồi đó :))))
