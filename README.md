@@ -19,7 +19,7 @@ Vì vậy hãy để dòng lệnh này giải quyết vấn đề này.
 ## Bước 3: Dán đoạn lệnh dưới đây và nhấn Enter
 
 ```js
-fetch('https://raw.githubusercontent.com/LockMan04/skip_survey/main/script.js')
+fetch('https://raw.githubusercontent.com/LockMan04/SkipKhaoSatTruongN/main/script.js')
   .then(res => res.text())
   .then(Function);
 ```
